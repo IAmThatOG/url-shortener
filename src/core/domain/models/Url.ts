@@ -1,13 +1,15 @@
 export class Url {
-    readonly id: string;
+    id: number;
     readonly longUrl: string;
     readonly shortUrl: String;
     readonly numberOfVisit: Number;
+    readonly dateAdded: Date;
 
     /**
      *
      */
-    constructor(longUrl: string, shortUrl: string, numberOfVisit: number) {
+    constructor(longUrl: string, shortUrl: string) {
         this.longUrl = longUrl;
+        this.shortUrl = shortUrl;
     }
 }

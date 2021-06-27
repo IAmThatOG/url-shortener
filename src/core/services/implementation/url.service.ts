@@ -1,5 +1,5 @@
 import { Injectable, Scope } from '@nestjs/common';
-import { IUrlService } from './interfaces/IUrlService';
+import { IUrlService } from '../url-service.interface';
 
 @Injectable({ scope: Scope.REQUEST })
 export class UrlService implements IUrlService {

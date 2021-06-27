@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { UrlService } from './services/url.service';
+import { IUrlService } from './services/url-service.interface';
+import { UrlService } from './services/implementation/url.service';
 
 @Module({
     providers: [
-        UrlService
+        { provide: IUrlService, useClass: UrlService }
     ],
     exports: [UrlService]
 })

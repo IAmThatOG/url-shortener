@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { IUrlService } from './interfaces/IUrlService';
+import { IUrlService } from '../url-service.interface';
 import { UrlService } from './url.service';
 
 describe('UrlService', () => {

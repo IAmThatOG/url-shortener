@@ -6,6 +6,6 @@ import { UrlService } from './services/implementation/url.service';
     providers: [
         { provide: IUrlService, useClass: UrlService }
     ],
-    exports: [UrlService]
+    exports: [IUrlService]
 })
 export class CoreModule { }

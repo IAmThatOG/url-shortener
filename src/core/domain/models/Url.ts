@@ -1,15 +1,22 @@
+import { nanoid } from "nanoid";
+import { URL } from "url";
+
 export class Url {
     id: number;
+    readonly host: string;
     readonly longUrl: string;
-    readonly shortUrl: String;
-    readonly numberOfVisit: Number;
-    readonly dateAdded: Date;
+    readonly shortUrl: string;
+    readonly numberOfVisit: number;
+    readonly dateAdded: string;
+    readonly lastVisit?: string;
 
     /**
      *
      */
-    constructor(longUrl: string, shortUrl: string) {
+    constructor(longUrl: string) {
+        this.host = new URL(longUrl).hostname;
         this.longUrl = longUrl;
-        this.shortUrl = shortUrl;
+        this.shortUrl = `http://short.est/${nanoid(10)}`;
+        this.dateAdded = new Date().toISOString();
     }
 }

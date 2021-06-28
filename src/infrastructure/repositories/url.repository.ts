@@ -1,7 +1,8 @@
 import { Url } from "src/core/domain/models/Url";
+import { IUrlRepository } from "src/core/repositories/url-repository.interface";
 
-class UrlRepository {
-    static readonly urls: Url[];
+export class UrlRepository implements IUrlRepository {
+    static readonly urls: Array<Url> = [];
     constructor() {
 
     }
@@ -9,30 +10,31 @@ class UrlRepository {
     /**
      * GetUrls
      */
-    public FetchWhere(predicate?: (value: Url) => unknown) {
+    FetchWhere(predicate?: (value: Url) => unknown): Url[] {
         if (predicate) {
             return UrlRepository.urls.filter(predicate);
         }
         return UrlRepository.urls;
     }
 
-    public FetchSingle(predicate: (value: Url) => unknown) {
+    FetchSingle(predicate: (value: Url) => unknown): Url {
         return UrlRepository.urls.find(predicate);
     }
 
     /**
      * AddUrl
      */
-    public Add(url: Url) {
+    Add(url: Url): number {
         const id = UrlRepository.urls.length + 1;
         url.id = id;
         UrlRepository.urls.push(url);
+        return id;
     }
 
     /**
      * UpdateUrl
      */
-    public Update(urlToUpdate: Url) {
+    Update(urlToUpdate: Url): boolean {
         if (!urlToUpdate) {
             return false;
         }

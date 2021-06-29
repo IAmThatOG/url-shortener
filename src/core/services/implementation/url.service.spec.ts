@@ -41,7 +41,7 @@ describe('UrlService', () => {
   });
 
   afterEach(() => {
-    urlRepo.Delete(existingUrl);
+    urlRepo.DeleteAll();
   });
 
   describe('encode url', () => {

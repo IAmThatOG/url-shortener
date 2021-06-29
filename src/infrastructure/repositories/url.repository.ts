@@ -4,7 +4,7 @@ import { IUrlRepository } from "src/core/repositories/url-repository.interface";
 
 @Injectable()
 export class UrlRepository implements IUrlRepository {
-    static readonly urls: Array<Url> = [];
+    static urls: Array<Url> = [];
     constructor() {
 
     }
@@ -51,7 +51,7 @@ export class UrlRepository implements IUrlRepository {
     /**
      * DeleteUrl
      */
-    Delete(urlToDelete: Url): boolean {
+    DeleteSingle(urlToDelete: Url): boolean {
         if (!urlToDelete) {
             return false;
         }
@@ -64,5 +64,12 @@ export class UrlRepository implements IUrlRepository {
             return false;
         }
         return true;
+    }
+
+    /**
+     * DeleteUrl
+     */
+    DeleteAll() {
+        UrlRepository.urls = [];
     }
 }

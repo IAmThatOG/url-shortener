@@ -6,7 +6,7 @@ import { ClientModule } from '../src/client/client.module';
 describe('AppController (e2e)', () => {
   let app: INestApplication;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [ClientModule],
     }).compile();
@@ -15,10 +15,13 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  // it('/ (GET)', () => {
-  //   return request(app.getHttpServer())
-  //     .get('/')
-  //     .expect(200)
-  //     .expect('Hello World!');
-  // });
+  test('/url/encode (POST)', () => {
+    return request(app.getHttpServer())
+      .post('/url/encode')
+      .expect(201);
+  });
+
+  afterAll(async () => {
+    await app.close();
+  });
 });

@@ -1,9 +1,7 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException, Logger, HttpStatus, BadRequestException } from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException, Logger, HttpStatus } from '@nestjs/common';
 import { Response, Request } from 'express';
-import { stringLiteral } from '@babel/types';
-import { IResponseObject, ResponseCode, responseCodeMap } from 'src/core/utilities/response-code.util';
-import { BaseResponseDto } from 'src/core/dto/response/base-response.dto';
-import { ErrorResponseDto } from 'src/core/dto/response/error-response.dto';
+import { IResponseObject, ResponseCode, responseCodeMap } from '../../core/utilities/response-code.util';
+import { BaseResponseDto } from '../../core/dto/response/base-response.dto';
 
 interface ErrorObject {
   httpStatus: number;

@@ -6,4 +6,5 @@ export interface IUrlRepository {
     FetchSingle(predicate: (value: Url) => unknown): Url;
     Add(url: Url): number;
     Update(urlToUpdate: Url): boolean;
+    Delete(urlToDelete: Url): boolean;
 }

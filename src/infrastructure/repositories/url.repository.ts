@@ -1,6 +1,8 @@
+import { Injectable, Scope } from "@nestjs/common";
 import { Url } from "src/core/domain/models/Url";
 import { IUrlRepository } from "src/core/repositories/url-repository.interface";
 
+@Injectable()
 export class UrlRepository implements IUrlRepository {
     static readonly urls: Array<Url> = [];
     constructor() {
@@ -43,6 +45,24 @@ export class UrlRepository implements IUrlRepository {
             return false;
         }
         UrlRepository.urls.splice(foundIndex, 1, urlToUpdate);
+        return true;
+    }
+
+    /**
+     * DeleteUrl
+     */
+    Delete(urlToDelete: Url): boolean {
+        if (!urlToDelete) {
+            return false;
+        }
+        let foundIndex = UrlRepository.urls.findIndex((url) => url.id == urlToDelete.id);
+        if (foundIndex < 0) {
+            return false;
+        }
+        let deleted = UrlRepository.urls.splice(foundIndex, 1);
+        if (deleted.length <= 0) {
+            return false;
+        }
         return true;
     }
 }

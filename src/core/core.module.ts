@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { IUrlService } from './services/url-service.interface';
 import { UrlService } from './services/implementation/url.service';
 import { IUrlRepository } from './repositories/url-repository.interface';
-import { UrlRepository } from 'src/infrastructure/repositories/url.repository';
+import { UrlRepository } from '../infrastructure/repositories/url.repository';
 
 @Module({
     // imports: [CoreModule],

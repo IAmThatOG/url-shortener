@@ -1,18 +1,17 @@
 import { BadRequestException, ConflictException, HttpStatus, Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
-import path from 'path';
-import { Url } from 'src/core/domain/models/Url';
-import { EncodeUrlRequestDto } from 'src/core/dto/request/encode-url-request.dto';
-import { BaseResponseDto } from 'src/core/dto/response/base-response.dto';
-import { DecodeUrlResponseDto } from 'src/core/dto/response/decode-url-response.dto';
-import { EncodeUrlResponseDto } from 'src/core/dto/response/encode-url-response.dto';
-import { ServiceResponseDto } from 'src/core/dto/response/service-response.dto';
-import { UrlStatisticsResponse } from 'src/core/dto/response/url-statistics-response.dto';
-import { IUrlRepository } from 'src/core/repositories/url-repository.interface';
-import { ResponseCode } from 'src/core/utilities/response-code.util';
-import { UrlRepository } from 'src/infrastructure/repositories/url.repository';
+import { URL_DOMAIN } from '../../utilities/app-constants.util';
+import { Url } from '../../domain/models/Url';
+import { EncodeUrlRequestDto } from '../../dto/request/encode-url-request.dto';
+import { BaseResponseDto } from '../../dto/response/base-response.dto';
+import { DecodeUrlResponseDto } from '../../dto/response/decode-url-response.dto';
+import { EncodeUrlResponseDto } from '../../dto/response/encode-url-response.dto';
+import { ServiceResponseDto } from '../../dto/response/service-response.dto';
+import { UrlStatisticsResponse } from '../../dto/response/url-statistics-response.dto';
+import { IUrlRepository } from '../../repositories/url-repository.interface';
+import { ResponseCode } from '../../utilities/response-code.util';
 import { IUrlService } from '../url-service.interface';
 
-@Injectable({ scope: Scope.REQUEST })
+@Injectable()
 export class UrlService implements IUrlService {
     constructor(@Inject(IUrlRepository) private readonly urlRepo: IUrlRepository) {
     }
@@ -24,7 +23,7 @@ export class UrlService implements IUrlService {
         }
         url = new Url(requestDTO.longUrl);
         this.urlRepo.Add(url);
-        return <ServiceResponseDto<EncodeUrlResponseDto>>{ status: true, statusCode: HttpStatus.CREATED, payload: { shortUrl: `http://short.est/${url.shortCode}` } }
+        return <ServiceResponseDto<EncodeUrlResponseDto>>{ status: true, statusCode: HttpStatus.CREATED, payload: { shortUrl: `${URL_DOMAIN}/${url.shortCode}` } }
     }
 
     decodeUrl(shortUrl: string): BaseResponseDto {
@@ -38,9 +37,6 @@ export class UrlService implements IUrlService {
             throw new BadRequestException({ code: ResponseCode.InvalidShortUrl });
         }
         const shortCode = validUrl.pathname.replace("/", "");
-        if (!shortCode) {
-            throw new BadRequestException({ code: ResponseCode.InvalidShortUrl });
-        }
         var url = this.urlRepo.FetchSingle(x => x.shortCode == shortCode);
         if (!url) {
             throw new NotFoundException({ code: ResponseCode.UrlNotFound });

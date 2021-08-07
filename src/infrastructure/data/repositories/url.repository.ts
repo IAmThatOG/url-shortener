@@ -1,5 +1,5 @@
 import { Injectable, Scope } from "@nestjs/common";
-import { Url } from "src/core/domain/models/Url";
+import { Url } from "src/core/domain/models/url.model";
 import { IUrlRepository } from "src/core/repositories/url-repository.interface";
 
 @Injectable()

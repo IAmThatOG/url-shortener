@@ -1,4 +1,7 @@
 import { Module } from '@nestjs/common';
+import { CoreModule } from 'src/core/core.module';
 
-@Module({})
-export class InfrastructureModule {}
+@Module({
+    imports: [CoreModule]
+})
+export class InfrastructureModule { }

@@ -1,4 +1,4 @@
-import { Url } from "../domain/models/Url";
+import { Url } from "../domain/models/url.model";
 
 export const IUrlRepository = Symbol("IUrlRepository");
 export interface IUrlRepository {

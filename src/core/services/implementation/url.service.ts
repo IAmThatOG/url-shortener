@@ -1,6 +1,6 @@
 import { BadRequestException, ConflictException, HttpStatus, Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { URL_DOMAIN } from '../../utilities/app-constants.util';
-import { Url } from '../../domain/models/Url';
+import { Url } from '../../domain/models/url.model';
 import { EncodeUrlRequestDto } from '../../dto/request/encode-url-request.dto';
 import { BaseResponseDto } from '../../dto/response/base-response.dto';
 import { DecodeUrlResponseDto } from '../../dto/response/decode-url-response.dto';
@@ -21,7 +21,7 @@ export class UrlService implements IUrlService {
         if (url) {
             throw new ConflictException({ code: ResponseCode.UrlExists });
         }
-        url = new Url(requestDTO.longUrl);
+        url = Url.GetInstance(requestDTO.longUrl);
         this.urlRepo.Add(url);
         return <ServiceResponseDto<EncodeUrlResponseDto>>{ status: true, statusCode: HttpStatus.CREATED, payload: { shortUrl: `${URL_DOMAIN}/${url.shortCode}` } }
     }

@@ -24,35 +24,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const httpStatus = exception.getStatus() || HttpStatus.INTERNAL_SERVER_ERROR;
 
-
-
-    // let errorMsg: string;
-
-    // switch (httpStatus) {
-    //   case HttpStatus.BAD_REQUEST:
-    //     errorMsg = 'Invalid Request. Kindly send a valid request';
-    //     break;
-    //   case HttpStatus.NOT_MODIFIED:
-    //     errorMsg = 'Failed to update data. Please try again';
-    //     break;
-    //   case HttpStatus.UNAUTHORIZED:
-    //     errorMsg = 'User unauthorised. Please login.';
-    //     break;
-    //   case HttpStatus.NOT_FOUND:
-    //     errorMsg = 'Entity does not exist';
-    //     break;
-    //   case HttpStatus.UNPROCESSABLE_ENTITY:
-    //     errorMsg = 'Request could not be processed. Please try again';
-    //     break;
-    //   default:
-    //     errorMsg = responseCodeMap[ResponseCode.ServerError].description;
-    //     break;
-    // }
-
-    // var responseObject = exception.getResponse() as IResponseObject;
-    // if (!responseObject) {
-    //   const
-    // }
     let messages: Array<string> = [];
     if (exception.getResponse()["message"]) {
       if (typeof exception.getResponse()["message"] == "string") {
@@ -65,9 +36,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
         };
       }
     }
-
-
-
 
     const errorObj: ErrorObject = {
       httpStatus: httpStatus,

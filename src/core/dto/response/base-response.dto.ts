@@ -1,8 +1,8 @@
-import { ErrorResponseDto } from "./error-response.dto";
+import { ErrorResponseDto } from './error-response.dto';
 
 export class BaseResponseDto {
-    status: boolean;
-    statusCode: number;
-    message?: string;
-    error?: ErrorResponseDto;
+  status: boolean;
+  statusCode: number;
+  message?: string;
+  error?: ErrorResponseDto;
 }

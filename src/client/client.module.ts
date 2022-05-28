@@ -4,7 +4,7 @@ import { InfrastructureModule } from 'src/infrastructure/infrastructure.module';
 import { UrlController } from './controllers/url.controller';
 
 @Module({
-    controllers: [UrlController],
-    imports: [CoreModule]
+  controllers: [UrlController],
+  imports: [CoreModule],
 })
-export class ClientModule { }
+export class ClientModule {}

@@ -9,19 +9,19 @@ import { getConnectionOptions } from 'typeorm';
 import { Url } from './domain/models/url.model';
 
 @Module({
-    imports: [
-        TypeOrmModule.forRootAsync({
-            useFactory: async () => Object.assign(await getConnectionOptions(), {})
-        }),
-        // TypeOrmModule.forFeature([])
-    ],
-    providers: [
-        //services
-        { provide: IUrlService, useClass: UrlService },
+  imports: [
+    TypeOrmModule.forRootAsync({
+      useFactory: async () => Object.assign(await getConnectionOptions(), {}),
+    }),
+    // TypeOrmModule.forFeature([])
+  ],
+  providers: [
+    //services
+    { provide: IUrlService, useClass: UrlService },
 
-        //repositories
-        { provide: IUrlRepository, useClass: UrlRepository }
-    ],
-    exports: [IUrlService]
+    //repositories
+    { provide: IUrlRepository, useClass: UrlRepository },
+  ],
+  exports: [IUrlService],
 })
-export class CoreModule { }
+export class CoreModule {}

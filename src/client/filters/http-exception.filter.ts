@@ -1,6 +1,17 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException, Logger, HttpStatus } from '@nestjs/common';
+import {
+  ArgumentsHost,
+  Catch,
+  ExceptionFilter,
+  HttpException,
+  Logger,
+  HttpStatus,
+} from '@nestjs/common';
 import { Response, Request } from 'express';
-import { IResponseObject, ResponseCode, responseCodeMap } from '../../core/utilities/response-code.util';
+import {
+  IResponseObject,
+  ResponseCode,
+  responseCodeMap,
+} from '../../core/utilities/response-code.util';
 import { BaseResponseDto } from '../../core/dto/response/base-response.dto';
 
 interface ErrorObject {
@@ -9,7 +20,7 @@ interface ErrorObject {
   path: string;
   method: string;
   error: string;
-  message: string
+  message: string;
   responseCode?: ResponseCode;
   reasons: string[];
 }
@@ -22,18 +33,19 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
-    const httpStatus = exception.getStatus() || HttpStatus.INTERNAL_SERVER_ERROR;
+    const httpStatus =
+      exception.getStatus() || HttpStatus.INTERNAL_SERVER_ERROR;
 
-    let messages: Array<string> = [];
-    if (exception.getResponse()["message"]) {
-      if (typeof exception.getResponse()["message"] == "string") {
-        messages.push(exception.getResponse()["message"]);
+    const messages: Array<string> = [];
+    if (exception.getResponse()['message']) {
+      if (typeof exception.getResponse()['message'] == 'string') {
+        messages.push(exception.getResponse()['message']);
       } else {
-        const source = exception.getResponse()["message"][0]["constraints"];
+        const source = exception.getResponse()['message'][0]['constraints'];
         const keys = Object.keys(source);
-        for (let k of keys) {
+        for (const k of keys) {
           messages.push(source[k]);
-        };
+        }
       }
     }
 
@@ -45,10 +57,14 @@ export class HttpExceptionFilter implements ExceptionFilter {
       error: exception.name,
       message: exception.message || null,
       responseCode: (exception.getResponse() as IResponseObject).code,
-      reasons: (exception.getResponse() as IResponseObject).reasons || messages
+      reasons: (exception.getResponse() as IResponseObject).reasons || messages,
     };
 
-    Logger.error(`${request.method} ==> ${request.url}`, JSON.stringify(errorObj), HttpExceptionFilter.name);
+    Logger.error(
+      `${request.method} ==> ${request.url}`,
+      JSON.stringify(errorObj),
+      HttpExceptionFilter.name,
+    );
     const errorResponse: BaseResponseDto = {
       status: false,
       statusCode: httpStatus,
@@ -56,10 +72,14 @@ export class HttpExceptionFilter implements ExceptionFilter {
       error: {
         httpMethod: errorObj.method,
         requestPath: errorObj.path,
-        errorCode: responseCodeMap[errorObj.responseCode || ResponseCode.ClientError].code || exception.name,
-        description: responseCodeMap[errorObj.responseCode || ResponseCode.ClientError].description,
-        reasons: errorObj.reasons
-      }
+        errorCode:
+          responseCodeMap[errorObj.responseCode || ResponseCode.ClientError]
+            .code || exception.name,
+        description:
+          responseCodeMap[errorObj.responseCode || ResponseCode.ClientError]
+            .description,
+        reasons: errorObj.reasons,
+      },
     };
     response.status(httpStatus).json(errorResponse);
   }

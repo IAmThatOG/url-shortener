@@ -4,12 +4,20 @@ import { UrlService } from '../../core/services/implementation/url.service';
 import { UrlController } from './url.controller';
 import { CoreModule } from '../../core/core.module';
 import { EncodeUrlRequestDto } from '../../core/dto/request/encode-url-request.dto';
-import { BadRequestException, ConflictException, HttpStatus, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  HttpStatus,
+  NotFoundException,
+} from '@nestjs/common';
 import { URL_DOMAIN } from '../../core/utilities/app-constants.util';
 import { ServiceResponseDto } from 'src/core/dto/response/service-response.dto';
 import { EncodeUrlResponseDto } from 'src/core/dto/response/encode-url-response.dto';
 import { ErrorResponseDto } from 'src/core/dto/response/error-response.dto';
-import { ResponseCode, responseCodeMap } from '../../core/utilities/response-code.util';
+import {
+  ResponseCode,
+  responseCodeMap,
+} from '../../core/utilities/response-code.util';
 import { BaseResponseDto } from '../../core/dto/response/base-response.dto';
 
 describe('UrlController', () => {
@@ -19,7 +27,7 @@ describe('UrlController', () => {
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UrlController],
-      imports: [CoreModule]
+      imports: [CoreModule],
     }).compile();
 
     urlController = module.get<UrlController>(UrlController);
@@ -35,35 +43,40 @@ describe('UrlController', () => {
       const result: BaseResponseDto = {
         status: false,
         statusCode: HttpStatus.CONFLICT,
-        message: "",
+        message: '',
         error: <ErrorResponseDto>{
           errorCode: responseCodeMap[ResponseCode.InvalidShortUrl].code,
-          description: responseCodeMap[ResponseCode.InvalidShortUrl].description,
+          description:
+            responseCodeMap[ResponseCode.InvalidShortUrl].description,
           reasons: [],
-          httpMethod: "POST",
-          requestPath: "/url/encode"
-        }
-      }
-      let mock = jest.spyOn(urlService, 'encodeUrl').mockImplementationOnce(() => result);
+          httpMethod: 'POST',
+          requestPath: '/url/encode',
+        },
+      };
+      const mock = jest
+        .spyOn(urlService, 'encodeUrl')
+        .mockImplementationOnce(() => result);
 
-      expect(urlController.shortenUrl({ longUrl: "httpsL//google.com" })).toBe(result);
+      expect(urlController.shortenUrl({ longUrl: 'httpsL//google.com' })).toBe(
+        result,
+      );
       mock.mockClear();
     });
 
     test('should return encoded url', () => {
-      let requestDto: EncodeUrlRequestDto = { longUrl: "https://twitter.com" };
-      let result = urlController.shortenUrl(requestDto);
+      const requestDto: EncodeUrlRequestDto = {
+        longUrl: 'https://twitter.com',
+      };
+      const result = urlController.shortenUrl(requestDto);
       console.log('result', result);
       expect(result).toBeDefined();
-      expect(result).toEqual(
-        {
-          status: true,
-          statusCode: HttpStatus.CREATED,
-          payload: {
-            shortUrl: expect.stringContaining(`${URL_DOMAIN}/`)
-          }
-        }
-      );
+      expect(result).toEqual({
+        status: true,
+        statusCode: HttpStatus.CREATED,
+        payload: {
+          shortUrl: expect.stringContaining(`${URL_DOMAIN}/`),
+        },
+      });
     });
   });
 });

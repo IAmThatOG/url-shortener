@@ -1,9 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { IUrlRepository } from '../../repositories/url-repository.interface';
-import { UrlRepository } from '../../../infrastructure/repositories/url.repository';
 import { IUrlService } from '../url-service.interface';
 import { UrlService } from './url.service';
-import { Url } from '../../domain/models/Url';
 import { EncodeUrlRequestDto } from '../../dto/request/encode-url-request.dto';
 import {
   BadRequestException,
@@ -12,6 +10,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { URL_DOMAIN } from '../../utilities/app-constants.util';
+import { UrlRepository } from 'src/infrastructure/data/repositories/url.repository';
+import { Url } from 'src/core/domain/models/url.model';
 
 describe('UrlService', () => {
   let urlService: IUrlService;
@@ -40,7 +40,7 @@ describe('UrlService', () => {
   });
 
   const existingUrlString = 'https://google.com';
-  const existingUrl = new Url(existingUrlString);
+  const existingUrl = Url.GetInstance(existingUrlString);
   beforeEach(() => {
     urlRepo.Add(existingUrl);
   });
